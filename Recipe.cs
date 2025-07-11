@@ -52,19 +52,19 @@ public abstract class Recipe
     public virtual void PrintRecipe()
     {
         Console.WriteLine($"\n--- {Name.ToUpper()} ---\n");
-        Console.WriteLine($"Descrição: {Description}");
-        Console.WriteLine($"Tempo de Preparo: {TimeInMinutes} minutos");
-        Console.WriteLine($"Porções: {Portions}");
-        Console.WriteLine($"Vegetariana: {(IsVegetarian ? "Sim" : "Não")}");
-        Console.WriteLine("\nIngredientes:");
+        Console.WriteLine($"Description: {Description}");
+        Console.WriteLine($"Preparation Time: {TimeInMinutes} minutes");
+        Console.WriteLine($"Portions: {Portions}");
+        Console.WriteLine($"Is Vegetarian: {(IsVegetarian ? "Sim" : "Não")}");
+        Console.WriteLine("\nIngredients:");
         foreach (var ingredient in Ingredients)
         {
             Console.WriteLine($"- {ingredient}");
         }
-        Console.WriteLine("\nModo de Preparo:");
-        for (int i = 0; i < Instructions.Count; i++)
+        Console.WriteLine("\nInstructions:");
+        foreach (string v in Instructions)
         {
-            Console.WriteLine($"{i + 1}. {Instructions[i]}");
+            Console.WriteLine($"- {v}");
         }
     }
 }
