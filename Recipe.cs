@@ -1,6 +1,6 @@
 ﻿namespace RecipesManagement;
 
-public class Recipe
+public abstract class Recipe
 {
     private string Name { get; set; }
     private string Description { get; set; } 
@@ -17,6 +17,26 @@ public class Recipe
         Portions = portions;
         Ingredients = ingredients;
         Instructions = instructions;
+    }
+    
+    public abstract void DisplayDetails();
+
+    public virtual void PrintRecipe()
+    {
+        Console.WriteLine($"\n--- {Name.ToUpper()} ---\n");
+        Console.WriteLine($"Descrição: {Description}");
+        Console.WriteLine($"Tempo de Preparo: {TimeInMinutes} minutos");
+        Console.WriteLine($"Porções: {Portions}");
+        Console.WriteLine("\nIngredientes:");
+        foreach (var ingredient in Ingredients)
+        {
+            Console.WriteLine($"- {ingredient}");
+        }
+        Console.WriteLine("\nModo de Preparo:");
+        for (int i = 0; i < Instructions.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {Instructions[i]}");
+        }
     }
     
 }
