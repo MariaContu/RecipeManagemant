@@ -2,15 +2,15 @@
 
 public abstract class Recipe
 {
-    public string Name { get; protected set; }
-    public string Description { get; protected set; }
-    public int TimeInMinutes { get; protected set; }
-    public double Portions { get; protected set; }
-    public bool IsVegetarian { get; protected set; }
-    public List<Ingredient> Ingredients { get; protected set; }
-    public List<string> Instructions { get; protected set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int TimeInMinutes { get; set; }
+    public double Portions { get; set; }
+    public bool IsVegetarian { get; set; }
+    public List<string> Ingredients { get; set; }
+    public List<string> Instructions { get; set; }
 
-    protected Recipe(string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<Ingredient> ingredients, List<string> instructions)
+    protected Recipe(string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<string> ingredients, List<string> instructions)
     {
         Name = name;
         Description = description;
@@ -23,31 +23,12 @@ public abstract class Recipe
 
     protected Recipe()
     {
-        Ingredients = new List<Ingredient>();
+        Ingredients = new List<string>();
         Instructions = new List<string>();
     }
 
     public abstract void DisplayDetails();
-
-    public virtual void MultiplyRecipe()
-    {
-        Console.WriteLine("How many times do you aim to grow your recipe?");
-        if (double.TryParse(Console.ReadLine(), out double quantity) && quantity > 0)
-        {
-            foreach (Ingredient i in Ingredients)
-            {
-                i.Quantity *= quantity;
-            }
-
-            Portions *= quantity;
-
-            PrintRecipe();
-        }
-        else
-        {
-            Console.WriteLine("Invalid quantity.");
-        }
-    }
+    
 
     public virtual void PrintRecipe()
     {
@@ -67,4 +48,5 @@ public abstract class Recipe
             Console.WriteLine($"- {v}");
         }
     }
+    
 }

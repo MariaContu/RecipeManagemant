@@ -12,6 +12,18 @@ public class Ingredient
         Name = name;
         Unit = unit;
     }
+    public Ingredient(double quantity, string name)
+    {
+        Quantity = quantity;
+        Name = name;
+        Unit = null;
+    }
+    
+    public Ingredient(string name)
+    {
+        Name = name;
+        Unit = null;
+    }
     public override string ToString()
     {
         return $"{Quantity} {Unit} de {Name} ";

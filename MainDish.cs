@@ -4,20 +4,22 @@ using System;
 
 class MainDish : Recipe
 {
-    public PROTEIN ProteinType { get; set; }
     public CUISINE CuisineType { get; set; }
 
-    public MainDish(string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<Ingredient> ingredients, List<string> instructions, PROTEIN proteinType, CUISINE cuisineType)
+    public MainDish(string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<string> ingredients, List<string> instructions, CUISINE cuisineType)
         : base(name, description, timeInMinutes, portions, isVegetarian, ingredients, instructions)
     {
-        ProteinType = proteinType;
         CuisineType = cuisineType;
+    }
+
+    public MainDish()
+    {
+        
     }
 
     public override void DisplayDetails()
     {
         PrintRecipe();
-        Console.WriteLine($"Protein: {ProteinType}");
         Console.WriteLine($"Cuisine: {CuisineType}");
     }
 
