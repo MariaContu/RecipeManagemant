@@ -6,17 +6,24 @@ public abstract class Recipe
     private string Description { get; set; } 
     private int TimeInMinutes { get; set; }
     private double Portions { get; set; }
+    private bool IsVegeterian { get; set; }
     private List<Ingredient> Ingredients { get; set; }
     private List<string> Instructions { get; set; }
 
-    public Recipe(string name, string description, int timeInMinutes, double portions, List<Ingredient> ingredients, List<string> instructions)
+    public Recipe(string name, string description, int timeInMinutes, double portions, bool IsVegeterian, List<Ingredient> ingredients, List<string> instructions)
     {
         Name = name;
         Description = description;
         TimeInMinutes = timeInMinutes;
         Portions = portions;
+        IsVegeterian = IsVegeterian;
         Ingredients = ingredients;
         Instructions = instructions;
+    }
+
+    public Recipe()
+    {
+        
     }
     
     public abstract void DisplayDetails();
