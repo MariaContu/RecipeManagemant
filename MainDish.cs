@@ -16,7 +16,7 @@ class MainDish : Recipe
 
     public override void DisplayDetails()
     {
-        PrintRecipeDetails();
+        PrintRecipe();
         Console.WriteLine($"Protein: {ProteinType}");
         Console.WriteLine($"Cuisine: {CuisineType}");
     }
