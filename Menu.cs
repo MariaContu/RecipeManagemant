@@ -73,9 +73,7 @@ public class Menu
                 Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > 4);
-
-        int i = 1;
-        int chosenOption;
+        
         switch (choice)
         {
             case 1:
@@ -104,11 +102,7 @@ public class Menu
     public static void ShowOptions<T>(List<T> options) where T : IOptionItem
     {
         int i = 1;
-        foreach (var o in options)
-        {
-            Option.AddOption(i, o.Name);
-            i++;
-        }
+        options.ForEach(o => Option.AddOption(i++, o.Name));
 
         int chosenOption = Option.ChooseOption("Digite o número da opção desejada: ");
         options[chosenOption-1].DisplayDetails();
