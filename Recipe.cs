@@ -31,7 +31,7 @@ public abstract class Recipe
 
     public virtual void MultiplyRecipe()
     {
-        Console.WriteLine("Você quer aumentar a receita em quantas vezes?");
+        Console.WriteLine("How many times do you aim to grow your revenue?");
         if (double.TryParse(Console.ReadLine(), out double quantity) && quantity > 0)
         {
             foreach (Ingredient i in Ingredients)
@@ -45,7 +45,7 @@ public abstract class Recipe
         }
         else
         {
-            Console.WriteLine("Quantidade inválida.");
+            Console.WriteLine("Invalid quantity.");
         }
     }
 
