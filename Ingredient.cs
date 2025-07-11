@@ -2,6 +2,19 @@
 
 public class Ingredient
 {
-    private double Quantity { get; set; }
-    private string Name { get; set; }
+    public double Quantity { get; set; }
+    public string Name { get; set; }
+    public string Unit { get; set; }
+
+    public Ingredient(double quantity, string name, string unit)
+    {
+        Quantity = quantity;
+        Name = name;
+        Unit = unit;
+    }
+
+    public override string ToString()
+    {
+        return $"{Quantity} {Unit} de {Name} ";
+    }
 }

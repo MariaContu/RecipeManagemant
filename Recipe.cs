@@ -24,12 +24,12 @@ public abstract class Recipe
     public virtual void MultiplyRecipe()
     {
         Console.WriteLine("Você quer aumentar a receita em quantas vezes?");
-        int quantity = int.Parse(Console.ReadLine());
+        double quantity = int.Parse(Console.ReadLine());
 
         //multiply portions, time and ingredients
         foreach (Ingredient i in Ingredients)
         {
-            //
+            
         }
     }
     
