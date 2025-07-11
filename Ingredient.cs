@@ -14,7 +14,6 @@ public class Ingredient
         Unit = unit;
         RecipeId = 0;
     }
-g
     public override string ToString()
     {
         return $"{Quantity} {Unit} de {Name} ";
