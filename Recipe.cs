@@ -2,53 +2,60 @@
 
 public abstract class Recipe
 {
-    private string Name { get; set; }
-    private string Description { get; set; } 
-    private int TimeInMinutes { get; set; }
-    private double Portions { get; set; }
-    private bool IsVegeterian { get; set; }
-    private List<Ingredient> Ingredients { get; set; }
-    private List<string> Instructions { get; set; }
+    public string Name { get; protected set; }
+    public string Description { get; protected set; }
+    public int TimeInMinutes { get; protected set; }
+    public double Portions { get; protected set; }
+    public bool IsVegetarian { get; protected set; }
+    public List<Ingredient> Ingredients { get; protected set; }
+    public List<string> Instructions { get; protected set; }
 
-    public Recipe(string name, string description, int timeInMinutes, double portions, bool IsVegeterian, List<Ingredient> ingredients, List<string> instructions)
+    protected Recipe(string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<Ingredient> ingredients, List<string> instructions)
     {
         Name = name;
         Description = description;
         TimeInMinutes = timeInMinutes;
         Portions = portions;
-        IsVegeterian = IsVegeterian;
+        IsVegetarian = isVegetarian;
         Ingredients = ingredients;
         Instructions = instructions;
     }
 
-    public Recipe()
+    protected Recipe()
     {
-        
+        Ingredients = new List<Ingredient>();
+        Instructions = new List<string>();
     }
-    
+
     public abstract void DisplayDetails();
 
     public virtual void MultiplyRecipe()
     {
         Console.WriteLine("Você quer aumentar a receita em quantas vezes?");
-        double quantity = int.Parse(Console.ReadLine());
-
-        //multiply portions, time and ingredients
-        foreach (Ingredient i in Ingredients)
+        if (double.TryParse(Console.ReadLine(), out double quantity) && quantity > 0)
         {
-            i.Quantity *= quantity;
+            foreach (Ingredient i in Ingredients)
+            {
+                i.Quantity *= quantity;
+            }
+
+            Portions *= quantity;
+
+            PrintRecipe();
         }
-        Portions *= quantity;
-        
-        PrintRecipe();
+        else
+        {
+            Console.WriteLine("Quantidade inválida.");
+        }
     }
-    
+
     public virtual void PrintRecipe()
     {
         Console.WriteLine($"\n--- {Name.ToUpper()} ---\n");
         Console.WriteLine($"Descrição: {Description}");
         Console.WriteLine($"Tempo de Preparo: {TimeInMinutes} minutos");
         Console.WriteLine($"Porções: {Portions}");
+        Console.WriteLine($"Vegetariana: {(IsVegetarian ? "Sim" : "Não")}");
         Console.WriteLine("\nIngredientes:");
         foreach (var ingredient in Ingredients)
         {
@@ -60,5 +67,4 @@ public abstract class Recipe
             Console.WriteLine($"{i + 1}. {Instructions[i]}");
         }
     }
-    
 }
