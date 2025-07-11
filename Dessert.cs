@@ -5,8 +5,8 @@ namespace RecipesManagement
         private bool IsGlutenFree { get; set; }
         private bool IsBaked { get; set; }
 
-        public Dessert(bool IsGlutenFree, bool IsBaked, string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<Ingredient> ingredients,
-                List<string> instructions) : base(name, description, timeInMinutes, portions, isVegetarian, ingredients, instructions)
+        public Dessert(string name, string description, int timeInMinutes, double portions, bool isVegetarian, List<Ingredient> ingredients,
+                List<string> instructions, bool IsGlutenFree, bool IsBaked) : base(name, description, timeInMinutes, portions, isVegetarian, ingredients, instructions)
         {
             this.IsGlutenFree = IsGlutenFree;
             this.IsBaked = IsBaked;
