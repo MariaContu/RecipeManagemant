@@ -3,7 +3,6 @@
 public class Drink : Recipe
 {
     private bool isAlcoholic;
-
     private TEMPERATURE temperature;
 
     public Drink(string name, string description, int timeInMinutes, double portions, bool IsVegeterian,
@@ -15,19 +14,19 @@ public class Drink : Recipe
 
     }
 
-    public void getIsAlcoholic()
+    public bool getIsAlcoholic()
     {
-        this.isAlcoholic = false;
+        return isAlcoholic;
     }
 
-    public void getTemperature()
+    public TEMPERATURE getTemperature()
     {
-        this.temperature = (TEMPERATURE)temperature;
+        return this.temperature;
     }
 
     public void Alcoholic()
     {
-        if (isAlcoholic)
+        if (isAlcoholic == true)
         {
             Console.WriteLine("Is Alcoholic.");
         }
@@ -36,6 +35,23 @@ public class Drink : Recipe
             Console.WriteLine("Is Not Alcoholic.");
         }
     }
+    
+    public void Temperature()
+    {
+        switch (temperature)
+        {
+            case TEMPERATURE.Cold:
+                Console.WriteLine("Cold Temperature");
+                break;
+            case TEMPERATURE.Hot:
+                Console.WriteLine("Hot Temperature");
+                break;
+            case TEMPERATURE.Ambient:
+                Console.WriteLine("Ambient Temperature");
+                break;
+        }
+    }
+
 
     public override void DisplayDetails()
     {
