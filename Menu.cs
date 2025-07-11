@@ -32,6 +32,14 @@ public class Menu
                 break;
             case 2:
                 //show list of ingredients in order to display possible recipies
+                //each ingredient is added on a list, which is used to find recipies that has all those ingredients
+                //
+                //from recipie in recipies (all this in var query)
+                //select new {
+                //      RecipeName = recipe.Name,
+                //      Ingredients = from ingredient in recipe.Ingredients
+                //                    select ingredient.Name
+                //}
                 break;
             case 3:
                 Console.Clear();
