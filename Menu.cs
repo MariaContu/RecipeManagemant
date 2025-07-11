@@ -10,17 +10,18 @@ public class Menu
         do
         {
             Console.Clear();
-            Console.WriteLine("╔══════════════════╗");
-            Console.WriteLine("║   RICA PANCITA   ║");
-            Console.WriteLine("╚══════════════════╝");
-            Console.WriteLine("1. Categorias");
+            Console.WriteLine("\t╔══════════════════╗");
+            Console.WriteLine("\t║   RICA PANCITA   ║");
+            Console.WriteLine("\t╚══════════════════╝");
+            Console.WriteLine("\tBrazilian Restaurant");
+            Console.WriteLine("1. Categories ");
             Console.WriteLine("2. Soborô");
-            Console.WriteLine("3. Sair");
+            Console.WriteLine("3. Out");
         
             isValidInput = int.TryParse(Console.ReadLine(), out choice);
             if (!isValidInput || choice < 1 || choice > 3)
             {
-                Console.WriteLine("Entrada inválida! Digite a opção desejada:");
+                Console.WriteLine("Invalid input. Please select a valid option.:");
                 Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > 3);
