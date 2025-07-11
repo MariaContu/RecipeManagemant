@@ -5,11 +5,11 @@ public abstract class Recipe
     private string Name { get; set; }
     private string Description { get; set; } 
     private int TimeInMinutes { get; set; }
-    private int Portions { get; set; }
+    private double Portions { get; set; }
     private List<Ingredient> Ingredients { get; set; }
     private List<string> Instructions { get; set; }
 
-    public Recipe(string name, string description, int timeInMinutes, int portions, List<Ingredient> ingredients, List<string> instructions)
+    public Recipe(string name, string description, int timeInMinutes, double portions, List<Ingredient> ingredients, List<string> instructions)
     {
         Name = name;
         Description = description;
@@ -29,8 +29,11 @@ public abstract class Recipe
         //multiply portions, time and ingredients
         foreach (Ingredient i in Ingredients)
         {
-            
+            i.Quantity *= quantity;
         }
+        Portions *= quantity;
+        
+        PrintRecipe();
     }
     
     public virtual void PrintRecipe()
