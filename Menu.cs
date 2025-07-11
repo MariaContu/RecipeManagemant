@@ -2,25 +2,28 @@
 
 public class Menu
 {
-    public void ShowMainMenu()
+    public static void ShowMainMenu()
     {
         int choice;
         bool isValidInput;
-        
-        Console.Clear();
-        Console.WriteLine("╔══════════════════╗");
-        Console.WriteLine("║   RICA PANCITA   ║");
-        Console.WriteLine("╚══════════════════╝");
-        Console.WriteLine("1. Categorias");
-        Console.WriteLine("2. Soborô");
-        Console.WriteLine("3. Sair");
-        
-        isValidInput = int.TryParse(Console.ReadLine(), out choice);
-        if (!isValidInput || choice < 1 || choice > 3)
+
+        do
         {
-            Console.WriteLine("Entrada inválida! Digite a opção desejada:");
-            Console.ReadKey();
-        }
+            Console.Clear();
+            Console.WriteLine("╔══════════════════╗");
+            Console.WriteLine("║   RICA PANCITA   ║");
+            Console.WriteLine("╚══════════════════╝");
+            Console.WriteLine("1. Categorias");
+            Console.WriteLine("2. Soborô");
+            Console.WriteLine("3. Sair");
+        
+            isValidInput = int.TryParse(Console.ReadLine(), out choice);
+            if (!isValidInput || choice < 1 || choice > 3)
+            {
+                Console.WriteLine("Entrada inválida! Digite a opção desejada:");
+                Console.ReadKey();
+            }
+        } while (!isValidInput || choice < 1 || choice > 3);
 
         switch (choice)
         {
@@ -31,7 +34,9 @@ public class Menu
                 //show list of ingredients in order to display possible recipies
                 break;
             case 3:
+                Console.Clear();
                 Environment.Exit(0);
+                break;
         }
     }
 }
