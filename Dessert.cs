@@ -1,6 +1,6 @@
 namespace RecipesManagement
 {
-    public class Dessert : Recipe
+    public class Dessert : Recipe, Menu.IOptionItem
     {
         private bool IsGlutenFree { get; set; }
         private bool IsBaked { get; set; }

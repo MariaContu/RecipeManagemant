@@ -2,7 +2,7 @@ namespace RecipesManagement;
 
 using System;
 
-class MainDish : Recipe
+class MainDish : Recipe, Menu.IOptionItem 
 {
     public PROTEIN ProteinType { get; set; }
     public CUISINE CuisineType { get; set; }
@@ -16,6 +16,7 @@ class MainDish : Recipe
 
     public override void DisplayDetails()
     {
+        Console.Clear();
         PrintRecipe();
         Console.WriteLine($"Protein: {ProteinType}");
         Console.WriteLine($"Cuisine: {CuisineType}");

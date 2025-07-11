@@ -1,6 +1,6 @@
 ﻿namespace RecipesManagement;
 
-public class Drink : Recipe
+public class Drink : Recipe, Menu.IOptionItem
 {
     private bool IsAlcoholic { get; set; }
     private TEMPERATURE Temperature { get; set; }
@@ -17,7 +17,7 @@ public class Drink : Recipe
     public override void DisplayDetails()
     {
         PrintRecipe();
-        Console.WriteLine($"Is Alcoholic? {(IsAlcoholic ? "Yes" : "No")}");
+        Console.WriteLine($"\nIs Alcoholic? {(IsAlcoholic ? "Yes" : "No")}");
         Console.WriteLine($"Temperature: {Temperature}");
     }
     
