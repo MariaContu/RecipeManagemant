@@ -6,10 +6,10 @@ public abstract class Recipe
     private string Description { get; set; } 
     private int TimeInMinutes { get; set; }
     private int Portions { get; set; }
-    private List<string> Ingredients { get; set; }
+    private List<Ingredient> Ingredients { get; set; }
     private List<string> Instructions { get; set; }
 
-    public Recipe(string name, string description, int timeInMinutes, int portions, List<string> ingredients, List<string> instructions)
+    public Recipe(string name, string description, int timeInMinutes, int portions, List<Ingredient> ingredients, List<string> instructions)
     {
         Name = name;
         Description = description;
@@ -21,6 +21,18 @@ public abstract class Recipe
     
     public abstract void DisplayDetails();
 
+    public virtual void MultiplyRecipe()
+    {
+        Console.WriteLine("Você quer aumentar a receita em quantas vezes?");
+        int quantity = int.Parse(Console.ReadLine());
+
+        //multiply portions, time and ingredients
+        foreach (Ingredient i in Ingredients)
+        {
+            //
+        }
+    }
+    
     public virtual void PrintRecipe()
     {
         Console.WriteLine($"\n--- {Name.ToUpper()} ---\n");
