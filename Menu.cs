@@ -1,4 +1,6 @@
-﻿namespace RecipesManagement;
+﻿using System.Xml;
+
+namespace RecipesManagement;
 
 using System.Xml;
 
@@ -20,7 +22,7 @@ public class Menu
             Console.WriteLine("2. Register ");
             Console.WriteLine("3. Out");
         
-            isValidInput = int.TryParse(ReadLineNonNullable(), out choice);
+            isValidInput = int.TryParse(Console.ReadLine(), out choice);
             if (!isValidInput || choice < 1 || choice > 3)
             {
                 Console.WriteLine("Invalid input. Please select a valid option.:");
@@ -186,7 +188,7 @@ public class Menu
         }
     }
 
-    private static void ShowCategories()
+    public static void ShowCategories()
     {
         int choice;
         bool isValidInput;
@@ -215,15 +217,169 @@ public class Menu
         {
             case 1:
                 List<MainDish> mainDishes = MainDish.GenerateMainDishes();
-                ShowOptions(mainDishes);
+                
+                // dar opcao de mostrar tudo ou filtrar por proteina ou tipo de cozinha
+                Console.WriteLine("\n\n Choose the option that satisfies you the most:");
+                Console.WriteLine("1. Filter by PROTEIN TYPE\n2. Filter by CUISINE TYPE\n3. Show ALL");
+                
+                isValidInput = int.TryParse(Console.ReadLine(), out choice);
+                if (!isValidInput || choice < 1 || choice > 4)
+                {
+                    Console.WriteLine("Invalid input. Please select a valid option.:");
+                    Console.ReadKey();
+                }
+                
+                switch (choice)
+                {
+                    case 1:
+                        Console.Clear();
+                        PROTEIN DesiredProtein = ShowProteinTypes();
+                        List<MainDish> filteredByProtein = mainDishes.Where(x => x.ProteinType == DesiredProtein).ToList();
+                        ShowOptions(filteredByProtein);
+                        
+                        break;
+                    case 2:
+                        Console.Clear();
+                        CUISINE DesiredCuisine = ShowCuisineTypes();
+                        List<MainDish> filteredByCuisine = mainDishes.Where(x => x.CuisineType == DesiredCuisine).ToList();
+                        ShowOptions(filteredByCuisine);
+                        
+                        break;
+                    case 3:
+                        ShowOptions(mainDishes);
+                        break;
+                }
                 break;
             case 2:
                 List<Dessert> desserts = Dessert.GenerateDesserts();
-                ShowOptions(desserts);
+
+                // dar opcao de mostrar tudo ou filtrar por proteina ou tipo de cozinha
+                Console.WriteLine("\n\n Choose the option that satisfies you the most:");
+                Console.WriteLine("1. Filter by GLUTEN\n2. Filter by BAKED\n3. Show ALL");
+                
+                isValidInput = int.TryParse(Console.ReadLine(), out choice);
+                if (!isValidInput || choice < 1 || choice > 3)
+                {
+                    Console.WriteLine("Invalid input. Please select a valid option.:");
+                    Console.ReadKey();
+                }
+                
+                switch (choice)
+                {
+                    case 1:
+                        Console.Clear();
+                        Console.WriteLine("Do you want it GLUTEN FREE?\n1. YES\n2. NO");
+                        
+                        isValidInput = int.TryParse(Console.ReadLine(), out choice);
+                        if (!isValidInput || choice < 1 || choice > 2)
+                        {
+                            Console.WriteLine("Invalid input. Please select a valid option.:");
+                            Console.ReadKey();
+                        }
+                        
+                        //switch com yes ou no
+                        switch (choice)
+                        {
+                            case 1:
+                                //com gluten
+                                List<Dessert> filteredByGluten = desserts.Where(d => d.IsGlutenFree == false).ToList();
+                                ShowOptions(filteredByGluten);
+                                
+                                break;
+                            case 2:
+                                List<Dessert> filteredByGlutenFree = desserts.Where(d => d.IsGlutenFree == true).ToList();
+                                ShowOptions(filteredByGlutenFree);
+                                break;
+                        }
+                        
+                        break;
+                    case 2:
+                        Console.Clear();
+                        Console.WriteLine("Do you want it baked?\n1. YES\n2. NO");
+                        
+                        isValidInput = int.TryParse(Console.ReadLine(), out choice);
+                        if (!isValidInput || choice < 1 || choice > 2)
+                        {
+                            Console.WriteLine("Invalid input. Please select a valid option.:");
+                            Console.ReadKey();
+                        }
+                        
+                        //switch com yes ou no
+                        switch (choice)
+                        {
+                            case 1:
+                                //baked
+                                List<Dessert> filterByBaked = desserts.Where(d => d.IsBaked == true).ToList();
+                                ShowOptions(filterByBaked);
+                                
+                                break;
+                            case 2:
+                                //not baked
+                                List<Dessert> filterByNotBaked = desserts.Where(d => d.IsBaked == false).ToList();
+                                ShowOptions(filterByNotBaked);
+                                break;
+                        }
+                        
+                        break;
+                    case 3:
+                        ShowOptions(desserts);
+                        break;
+                }
                 break;
             case 3:
                 List<Drink> drinks = Drink.GenerateDrinks();
-                ShowOptions(drinks);
+                
+                // dar opcao de mostrar tudo ou filtrar por proteina ou tipo de cozinha
+                Console.WriteLine("\n\n Choose the option that satisfies you the most:");
+                Console.WriteLine("1. Filter by ALCOHOL\n2. Filter by TEMPERATURE\n3. Show ALL");
+                
+                isValidInput = int.TryParse(Console.ReadLine(), out choice);
+                if (!isValidInput || choice < 1 || choice > 3)
+                {
+                    Console.WriteLine("Invalid input. Please select a valid option.:");
+                    Console.ReadKey();
+                }
+                
+                switch (choice)
+                {
+                    case 1:
+                        Console.Clear();
+                        Console.WriteLine("Do you want it WITH ALCOHOL?\n1. YES\n2. NO");
+                        
+                        isValidInput = int.TryParse(Console.ReadLine(), out choice);
+                        if (!isValidInput || choice < 1 || choice > 2)
+                        {
+                            Console.WriteLine("Invalid input. Please select a valid option.:");
+                            Console.ReadKey();
+                        }
+                        
+                        //switch com yes ou no
+                        switch (choice)
+                        {
+                            case 1:
+                                //with alcohol
+                                List<Drink> filteredByWithAlcohol = drinks.Where(d => d.IsAlcoholic == true).ToList();
+                                ShowOptions(filteredByWithAlcohol);
+                                break;
+                            case 2:
+                                List<Drink> filteredByNoAlcohol = drinks.Where(d => d.IsAlcoholic == false).ToList();
+                                ShowOptions(filteredByNoAlcohol);
+                                break;
+                        }
+                        
+                        break;
+                    case 2:
+                        Console.Clear();
+                        TEMPERATURE temperature = ShowTemperatureTypes();
+                        List<Drink> filteredByTemperature = drinks.Where(d => d.Temperature == temperature).ToList();
+                        ShowOptions(filteredByTemperature);
+                        
+                        break;
+                    case 3:
+                        ShowOptions(drinks);
+                        break;
+                }
+                
                 break;
             case 4:
                 Console.Clear();
@@ -278,5 +434,105 @@ public class Menu
             Console.WriteLine("Invalid input. Please select a valid input.");
         }
     }
+    
+    public static PROTEIN ShowProteinTypes()
+    {
+        int choice;
+        bool isValidInput;
+        PROTEIN selectedProtein = PROTEIN.NA;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Select a Protein Type to filter:");
+            string[] proteinNames = Enum.GetNames(typeof(PROTEIN));
+            for (int i = 0; i < proteinNames.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {proteinNames[i]}");
+            }
+            Console.Write("Enter your choice: ");
+
+            isValidInput = int.TryParse(Console.ReadLine(), out choice);
+
+            if (isValidInput && choice >= 1 && choice <= proteinNames.Length)
+            {
+                selectedProtein = (PROTEIN)Enum.Parse(typeof(PROTEIN), proteinNames[choice - 1]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please select a valid option.");
+                Console.ReadKey();
+            }
+        } while (!isValidInput || choice < 1 || choice > Enum.GetNames(typeof(PROTEIN)).Length);
+
+        return selectedProtein;
+    }
+    
+    public static CUISINE ShowCuisineTypes()
+    {
+        int choice;
+        bool isValidInput;
+        CUISINE selectedCuisine = CUISINE.OTHER;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Select a Cuisine Type to filter:");
+            string[] cuisineNames = Enum.GetNames(typeof(CUISINE));
+            for (int i = 0; i < cuisineNames.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {cuisineNames[i]}");
+            }
+            Console.Write("Enter your choice: ");
+
+            isValidInput = int.TryParse(Console.ReadLine(), out choice);
+
+            if (isValidInput && choice >= 1 && choice <= cuisineNames.Length)
+            {
+                selectedCuisine = (CUISINE)Enum.Parse(typeof(CUISINE), cuisineNames[choice - 1]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please select a valid option.");
+                Console.ReadKey();
+            }
+        } while (!isValidInput || choice < 1 || choice > Enum.GetNames(typeof(CUISINE)).Length);
+
+        return selectedCuisine;
+    }
+    
+    public static TEMPERATURE ShowTemperatureTypes()
+    {
+        int choice;
+        bool isValidInput;
+        TEMPERATURE selectedTemperature = TEMPERATURE.COLD; // Valor padrão
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Select a Temperature Type to filter:");
+            string[] temperatureNames = Enum.GetNames(typeof(TEMPERATURE));
+            for (int i = 0; i < temperatureNames.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {temperatureNames[i]}");
+            }
+            Console.Write("Enter your choice: ");
+
+            isValidInput = int.TryParse(Console.ReadLine(), out choice);
+
+            if (isValidInput && choice >= 1 && choice <= temperatureNames.Length)
+            {
+                selectedTemperature = (TEMPERATURE)Enum.Parse(typeof(TEMPERATURE), temperatureNames[choice - 1]);
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please select a valid option.");
+                Console.ReadKey();
+            }
+        } while (!isValidInput || choice < 1 || choice > Enum.GetNames(typeof(TEMPERATURE)).Length);
+
+        return selectedTemperature;
+    }
+
 }
 

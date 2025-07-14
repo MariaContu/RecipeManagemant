@@ -32,7 +32,7 @@ public class Drink : Recipe, Menu.IOptionItem
         {
             new Drink("Water", "Plain drinking water.", 0, 1, true, 
                 new List<string> { "Water" }, 
-                new List<string> { "Serve" }, false, TEMPERATURE.COLD),
+                new List<string> { "Serve" }, false, TEMPERATURE.AMBIENT),
 
             new Drink("Coffee", "Hot black coffee.", 5, 1, true, 
                 new List<string> { "Coffee Beans", "Water" }, 
