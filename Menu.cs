@@ -1,9 +1,16 @@
-﻿namespace RecipesManagement;
+﻿using System.Xml;
+
+namespace RecipesManagement;
 
 using System;
+using System.Collections.Generic;
 
 public static class Menu
 {
+    static List<MainDish> _mainDishes = MainDish.GenerateMainDishes();
+    static List<Dessert> _desserts = Dessert.GenerateDesserts();
+    static List<Drink> _drinks = Drink.GenerateDrinks();
+    
     public static void ShowMainMenu()
     {
         int choice;
@@ -14,7 +21,7 @@ public static class Menu
             Console.Clear();
             Console.WriteLine("\t╔══════════════════╗");
             Console.WriteLine("\t║   RICA PANCITA   ║");
-            Console.WriteLine("\t╚══════════════════╝");
+            Console.WriteLine("\t╚════════════════╝");
             Console.WriteLine("\tBrazilian Restaurant");
             Console.WriteLine("1. Categories ");
             Console.WriteLine("2. Register your own recipe ");
@@ -33,18 +40,23 @@ public static class Menu
             case 1:
                 ShowCategories();
                 break;
-            case 2: // Register a new recipe
-                Console.Clear();
-                Console.WriteLine("What would you like to register? ");
-                Console.WriteLine("1. Main Dish \n2. Dessert \n3. Drink");
-                    
-                isValidInput = int.TryParse(ReadLineNonNullable(), out choice);
-                if (!isValidInput || choice < 1 || choice > 3)
+            case 2:
+                int registerChoice;
+                do
                 {
-                    Console.WriteLine("Invalid input. Please select a valid option.:");
-                    Console.ReadKey();
-                }
-                switch (choice)
+                    Console.Clear();
+                    Console.WriteLine("What would you like to register? ");
+                    Console.WriteLine("1. Main Dish \n2. Dessert \n3. Drink");
+                        
+                    isValidInput = int.TryParse(ReadLineNonNullable(), out registerChoice);
+                    if (!isValidInput || registerChoice < 1 || registerChoice > 3)
+                    {
+                        Console.WriteLine("Invalid input. Please select a valid option.:");
+                        Console.ReadKey();
+                    }
+                } while (!isValidInput || registerChoice < 1 || registerChoice > 3);
+
+                switch (registerChoice)
                 {
                     case 1: 
                         MainDish md = new MainDish();
@@ -52,130 +64,295 @@ public static class Menu
                         md.Name = ReadLineNonNullable();
                         Console.WriteLine("Insert a description: ");
                         md.Description = ReadLineNonNullable();
-                        Console.WriteLine("How long does it take to make? (In minutes)");
-                        md.TimeInMinutes = int.Parse(ReadLineNonNullable());
-                        Console.WriteLine("How many portions?");
-                        md.Portions = int.Parse(ReadLineNonNullable());
-                        Console.WriteLine("Is it vegetarian? (yes/no)");
-                        md.IsVegetarian = ReadLineNonNullable() == "yes";
                         
-                        Console.WriteLine("\nInsert a ingredient or 0 to exit: ");
+                        int timeInMinutes;
+                        do
+                        {
+                            Console.WriteLine("How long does it take to make? (In minutes)");
+                            isValidInput = int.TryParse(ReadLineNonNullable(), out timeInMinutes);
+                            if (!isValidInput || timeInMinutes <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a positive number for minutes.");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || timeInMinutes <= 0);
+                        md.TimeInMinutes = timeInMinutes;
+
+                        int portions;
+                        do
+                        {
+                            Console.WriteLine("How many portions?");
+                            isValidInput = int.TryParse(ReadLineNonNullable(), out portions);
+                            if (!isValidInput || portions <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a positive number for portions.");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || portions <= 0);
+                        md.Portions = portions;
+
+                        string vegetarianInput;
+                        do
+                        {
+                            Console.WriteLine("Is it vegetarian? (yes/no)");
+                            vegetarianInput = ReadLineNonNullable().ToLower();
+                            if (vegetarianInput != "yes" && vegetarianInput != "no")
+                            {
+                                Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
+                                Console.ReadKey();
+                            }
+                        } while (vegetarianInput != "yes" && vegetarianInput != "no");
+                        md.IsVegetarian = vegetarianInput == "yes";
+                        
+                        Console.WriteLine("\nInsert an ingredient or 0 to exit: ");
                         string ingredient = "";
                         while (ingredient != "0")
                         {
                             ingredient = ReadLineNonNullable();
-                            md.Ingredients.Add(ingredient);
+                            if (ingredient != "0")
+                            {
+                                md.Ingredients.Add(ingredient);
+                            }
                         }
                         
-                        Console.WriteLine("\nInsert a instruction or 0 to exit: ");
+                        Console.WriteLine("\nInsert an instruction or 0 to exit: ");
                         string instruction = "";
                         while (instruction != "0")
                         {
                             instruction = ReadLineNonNullable();
-                            md.Instructions.Add(instruction);
+                            if (instruction != "0")
+                            {
+                                md.Instructions.Add(instruction);
+                            }
                         }
 
-                        Console.WriteLine("\nWhich protein type is it? (Meat, Chicken, Fish, Chickpea, Soy, NA)");
-                        string proteinInput = ReadLineNonNullable().ToLower();
-                        if (Enum.TryParse(typeof(PROTEIN), proteinInput, true, out var protein))
+                        string proteinInput;
+                        do
                         {
-                            md.ProteinType = (PROTEIN)protein;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid protein type. Setting to Not Available.");
-                            md.ProteinType = PROTEIN.NA;
-                        }
+                            Console.WriteLine("\nWhich protein type is it? (Meat, Chicken, Fish, Chickpea, Soy, NA)");
+                            proteinInput = ReadLineNonNullable().ToLower();
+                            if (!Enum.TryParse(typeof(PROTEIN), proteinInput, true, out var protein))
+                            {
+                                Console.WriteLine("Invalid protein type. Please choose from the options.");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                md.ProteinType = (PROTEIN)protein;
+                                break;
+                            }
+                        } while (true);
 
-                        Console.WriteLine("\nWhich cuisine is it? (Italian, Indian, Mexican, Japanese, American, Thai, Brazilian, Other)");
-                        string cuisineInput = ReadLineNonNullable().ToUpper();
-                        if (Enum.TryParse(typeof(CUISINE), cuisineInput, true, out var cuisine))
+                        string cuisineInput;
+                        do
                         {
-                            md.CuisineType = (CUISINE)cuisine;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid cuisine type. Setting to Other.");
-                            md.CuisineType = CUISINE.OTHER;
-                        }
+                            Console.WriteLine("\nWhich cuisine is it? (Italian, Indian, Mexican, Japanese, American, Thai, Brazilian, Other)");
+                            cuisineInput = ReadLineNonNullable().ToUpper();
+                            if (!Enum.TryParse(typeof(CUISINE), cuisineInput, true, out var cuisine))
+                            {
+                                Console.WriteLine("Invalid cuisine type. Please choose from the options.");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                md.CuisineType = (CUISINE)cuisine;
+                                break;
+                            }
+                        } while (true);
 
+                        _mainDishes.Add(md);
                         ShowMainMenu();
                         break;
-                    case 2: // Dessert: asks for user input for each property to create a new Dessert object
+                    case 2:
                         Dessert des = new Dessert();
                         Console.WriteLine("Give it a name: ");
                         des.Name = ReadLineNonNullable();
                         Console.WriteLine("Insert a description: ");
                         des.Description = ReadLineNonNullable();
-                        Console.WriteLine("How long does it take to make? (In minutes)");
-                        des.TimeInMinutes = int.Parse(ReadLineNonNullable());
-                        Console.WriteLine("How many portions?");
-                        des.Portions = int.Parse(ReadLineNonNullable());
-                        Console.WriteLine("Is it vegetarian? (yes/no)");
-                        des.IsVegetarian = ReadLineNonNullable() == "yes";
                         
-                        Console.WriteLine("\nInsert a ingredient or 0 to exit: ");
+                        do
+                        {
+                            Console.WriteLine("How long does it take to make? (In minutes)");
+                            isValidInput = int.TryParse(ReadLineNonNullable(), out timeInMinutes);
+                            if (!isValidInput || timeInMinutes <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a positive number for minutes.");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || timeInMinutes <= 0);
+                        des.TimeInMinutes = timeInMinutes;
+
+                        do
+                        {
+                            Console.WriteLine("How many portions?");
+                            isValidInput = int.TryParse(ReadLineNonNullable(), out portions);
+                            if (!isValidInput || portions <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a positive number for portions.");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || portions <= 0);
+                        des.Portions = portions;
+
+                        do
+                        {
+                            Console.WriteLine("Is it vegetarian? (yes/no)");
+                            vegetarianInput = ReadLineNonNullable().ToLower();
+                            if (vegetarianInput != "yes" && vegetarianInput != "no")
+                            {
+                                Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
+                                Console.ReadKey();
+                            }
+                        } while (vegetarianInput != "yes" && vegetarianInput != "no");
+                        des.IsVegetarian = vegetarianInput == "yes";
+                        
+                        Console.WriteLine("\nInsert an ingredient or 0 to exit: ");
                         string ingredient1 = "";
                         while (ingredient1 != "0")
                         {
                             ingredient1 = ReadLineNonNullable();
-                            des.Ingredients.Add(ingredient1);
+                            if (ingredient1 != "0")
+                            {
+                                des.Ingredients.Add(ingredient1);
+                            }
                         }
                         
-                        Console.WriteLine("\nInsert a instruction or 0 to exit: ");
+                        Console.WriteLine("\nInsert an instruction or 0 to exit: ");
                         string instruction1 = "";
                         while (instruction1 != "0")
                         {
                             instruction1 = ReadLineNonNullable();
-                            des.Instructions.Add(instruction1);
+                            if (instruction1 != "0")
+                            {
+                                des.Instructions.Add(instruction1);
+                            }
                         }
                         
-                        Console.WriteLine("\nIs it baked? (yes/no)");
-                        des.IsBaked = ReadLineNonNullable() == "yes";
+                        string bakedInput;
+                        do
+                        {
+                            Console.WriteLine("\nIs it baked? (yes/no)");
+                            bakedInput = ReadLineNonNullable().ToLower();
+                            if (bakedInput != "yes" && bakedInput != "no")
+                            {
+                                Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
+                                Console.ReadKey();
+                            }
+                        } while (bakedInput != "yes" && bakedInput != "no");
+                        des.IsBaked = bakedInput == "yes";
                         
-                        Console.WriteLine("\nIs it gluten free? (yes/no)");
-                        des.IsGlutenFree = ReadLineNonNullable() == "yes";
+                        string glutenInput;
+                        do
+                        {
+                            Console.WriteLine("\nIs it gluten free? (yes/no)");
+                            glutenInput = ReadLineNonNullable().ToLower();
+                            if (glutenInput != "yes" && glutenInput != "no")
+                            {
+                                Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
+                                Console.ReadKey();
+                            }
+                        } while (glutenInput != "yes" && glutenInput != "no");
+                        des.IsGlutenFree = glutenInput == "yes";
 
+                        _desserts.Add(des);
                         ShowMainMenu();
                         break;
-                    case 3: // Drink: asks for user input for each property to create a new Drink object
+                    case 3:
                         Drink drink = new Drink();
                         Console.WriteLine("Give it a name: ");
                         drink.Name = ReadLineNonNullable();
                         Console.WriteLine("Insert a description: ");
                         drink.Description = ReadLineNonNullable();
-                        Console.WriteLine("How long does it take to make? (In minutes)");
-                        drink.TimeInMinutes = int.Parse(ReadLineNonNullable());
-                        Console.WriteLine("How many portions?");
-                        drink.Portions = int.Parse(ReadLineNonNullable());
-                        Console.WriteLine("Is it vegetarian? (yes/no)");
-                        drink.IsVegetarian = ReadLineNonNullable() == "yes";
                         
-                        Console.WriteLine("\nInsert a ingredient or 0 to exit: ");
+                        do
+                        {
+                            Console.WriteLine("How long does it take to make? (In minutes)");
+                            isValidInput = int.TryParse(ReadLineNonNullable(), out timeInMinutes);
+                            if (!isValidInput || timeInMinutes <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a positive number for minutes.");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || timeInMinutes <= 0);
+                        drink.TimeInMinutes = timeInMinutes;
+
+                        do
+                        {
+                            Console.WriteLine("How many portions?");
+                            isValidInput = int.TryParse(ReadLineNonNullable(), out portions);
+                            if (!isValidInput || portions <= 0)
+                            {
+                                Console.WriteLine("Invalid input. Please enter a positive number for portions.");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || portions <= 0);
+                        drink.Portions = portions;
+
+                        do
+                        {
+                            Console.WriteLine("Is it vegetarian? (yes/no)");
+                            vegetarianInput = ReadLineNonNullable().ToLower();
+                            if (vegetarianInput != "yes" && vegetarianInput != "no")
+                            {
+                                Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
+                                Console.ReadKey();
+                            }
+                        } while (vegetarianInput != "yes" && vegetarianInput != "no");
+                        drink.IsVegetarian = vegetarianInput == "yes";
+                        
+                        Console.WriteLine("\nInsert an ingredient or 0 to exit: ");
                         string ingredient2 = "";
                         while (ingredient2 != "0")
                         {
                             ingredient2 = ReadLineNonNullable();
-                            drink.Ingredients.Add(ingredient2);
+                            if (ingredient2 != "0")
+                            {
+                                drink.Ingredients.Add(ingredient2);
+                            }
                         }
                         
-                        Console.WriteLine("\nInsert a instruction or 0 to exit: ");
+                        Console.WriteLine("\nInsert an instruction or 0 to exit: ");
                         string instruction2 = "";
                         while (instruction2 != "0")
                         {
                             instruction2= ReadLineNonNullable();
-                            drink.Instructions.Add(instruction2);
+                            if (instruction2 != "0")
+                            {
+                                drink.Instructions.Add(instruction2);
+                            }
                         }
                         
-                        Console.WriteLine("\nIs it alcoholic? (yes/no)");
-                        drink.IsAlcoholic = ReadLineNonNullable() == "yes";
-                        
-                        Console.WriteLine("\nWhat is the temperature? (hot/cold/ambient)");
-                        string temperatureInput = ReadLineNonNullable().ToLower();
-                        if (Enum.TryParse(typeof(TEMPERATURE), temperatureInput, true, out var temperature))
+                        string alcoholicInput;
+                        do
                         {
-                            drink.Temperature = (TEMPERATURE)temperature;
-                        }
+                            Console.WriteLine("\nIs it alcoholic? (yes/no)");
+                            alcoholicInput = ReadLineNonNullable().ToLower();
+                            if (alcoholicInput != "yes" && alcoholicInput != "no")
+                            {
+                                Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
+                                Console.ReadKey();
+                            }
+                        } while (alcoholicInput != "yes" && alcoholicInput != "no");
+                        drink.IsAlcoholic = alcoholicInput == "yes";
+                        
+                        string temperatureInput;
+                        do
+                        {
+                            Console.WriteLine("\nWhat is the temperature? (hot/cold/ambient)");
+                            temperatureInput = ReadLineNonNullable().ToLower();
+                            if (!Enum.TryParse(typeof(TEMPERATURE), temperatureInput, true, out var temperature))
+                            {
+                                Console.WriteLine("Invalid temperature type. Please choose from the options.");
+                                Console.ReadKey();
+                            }
+                            else
+                            {
+                                drink.Temperature = (TEMPERATURE)temperature;
+                                break;
+                            }
+                        } while (true);
+
+                        _drinks.Add(drink);
                         ShowMainMenu();
                         break; 
                 }
@@ -197,7 +374,7 @@ public static class Menu
             Console.Clear();
             Console.WriteLine("\t╔══════════════════╗");
             Console.WriteLine("\t║   RICA PANCITA   ║");
-            Console.WriteLine("\t╚══════════════════╝");
+            Console.WriteLine("\t╚════════════════╝");
             Console.WriteLine("\tBrazilian Restaurant");
             Console.WriteLine("1. Main dishes ");
             Console.WriteLine("2. Dessert ");
@@ -215,153 +392,161 @@ public static class Menu
         switch (choice)
         {
             case 1:
-                List<MainDish> mainDishes = MainDish.GenerateMainDishes();
-                
-                // dar opcao de mostrar tudo ou filtrar por proteina ou tipo de cozinha
-                Console.WriteLine("\n\n Choose the option that satisfies you the most:");
-                Console.WriteLine("1. Filter by PROTEIN TYPE\n2. Filter by CUISINE TYPE\n3. Show ALL");
-                
-                isValidInput = int.TryParse(Console.ReadLine(), out choice);
-                if (!isValidInput || choice < 1 || choice > 4)
+                int filterChoiceMainDish;
+                do
                 {
-                    Console.WriteLine("Invalid input. Please select a valid option.:");
-                    Console.ReadKey();
-                }
+                    Console.WriteLine("\n\n Choose the option that satisfies you the most:");
+                    Console.WriteLine("1. Filter by PROTEIN TYPE\n2. Filter by CUISINE TYPE\n3. Show ALL");
+                    
+                    isValidInput = int.TryParse(Console.ReadLine(), out filterChoiceMainDish);
+                    if (!isValidInput || filterChoiceMainDish < 1 || filterChoiceMainDish > 3)
+                    {
+                        Console.WriteLine("Invalid input. Please select a valid option.:");
+                        Console.ReadKey();
+                    }
+                } while (!isValidInput || filterChoiceMainDish < 1 || filterChoiceMainDish > 3);
                 
-                switch (choice)
+                switch (filterChoiceMainDish)
                 {
                     case 1:
                         Console.Clear();
                         PROTEIN desiredProtein = ShowProteinTypes();
-                        List<MainDish> filteredByProtein = mainDishes.Where(x => x.ProteinType == desiredProtein).ToList();
+                        List<MainDish> filteredByProtein = _mainDishes.Where(x => x.ProteinType == desiredProtein).ToList();
                         ShowOptions(filteredByProtein);
                         
                         break;
                     case 2:
                         Console.Clear();
                         CUISINE desiredCuisine = ShowCuisineTypes();
-                        List<MainDish> filteredByCuisine = mainDishes.Where(x => x.CuisineType == desiredCuisine).ToList();
+                        List<MainDish> filteredByCuisine = _mainDishes.Where(x => x.CuisineType == desiredCuisine).ToList();
                         ShowOptions(filteredByCuisine);
                         
                         break;
                     case 3:
-                        ShowOptions(mainDishes);
+                        ShowOptions(_mainDishes);
                         break;
                 }
                 break;
             case 2:
-                List<Dessert> desserts = Dessert.GenerateDesserts();
-
-                // dar opcao de mostrar tudo ou filtrar por proteina ou tipo de cozinha
-                Console.WriteLine("\n\n Choose the option that satisfies you the most:");
-                Console.WriteLine("1. Filter by GLUTEN\n2. Filter by BAKED\n3. Show ALL");
-                
-                isValidInput = int.TryParse(Console.ReadLine(), out choice);
-                if (!isValidInput || choice < 1 || choice > 3)
+                int filterChoiceDessert;
+                do
                 {
-                    Console.WriteLine("Invalid input. Please select a valid option.:");
-                    Console.ReadKey();
-                }
+                    Console.WriteLine("\n\n Choose the option that satisfies you the most:");
+                    Console.WriteLine("1. Filter by GLUTEN\n2. Filter by BAKED\n3. Show ALL");
+                    
+                    isValidInput = int.TryParse(Console.ReadLine(), out filterChoiceDessert);
+                    if (!isValidInput || filterChoiceDessert < 1 || filterChoiceDessert > 3)
+                    {
+                        Console.WriteLine("Invalid input. Please select a valid option.:");
+                        Console.ReadKey();
+                    }
+                } while (!isValidInput || filterChoiceDessert < 1 || filterChoiceDessert > 3);
                 
-                switch (choice)
+                switch (filterChoiceDessert)
                 {
                     case 1:
-                        Console.Clear();
-                        Console.WriteLine("Do you want it GLUTEN FREE?\n1. YES\n2. NO");
-                        
-                        isValidInput = int.TryParse(Console.ReadLine(), out choice);
-                        if (!isValidInput || choice < 1 || choice > 2)
+                        int glutenChoice;
+                        do
                         {
-                            Console.WriteLine("Invalid input. Please select a valid option.:");
-                            Console.ReadKey();
-                        }
+                            Console.Clear();
+                            Console.WriteLine("Do you want it GLUTEN FREE?\n1. YES\n2. NO");
+                            
+                            isValidInput = int.TryParse(Console.ReadLine(), out glutenChoice);
+                            if (!isValidInput || glutenChoice < 1 || glutenChoice > 2)
+                            {
+                                Console.WriteLine("Invalid input. Please select a valid option.:");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || glutenChoice < 1 || glutenChoice > 2);
                         
-                        //switch com yes ou no
-                        switch (choice)
+                        switch (glutenChoice)
                         {
                             case 1:
-                                //com gluten
-                                List<Dessert> filteredByGluten = desserts.Where(d => d.IsGlutenFree == false).ToList();
-                                ShowOptions(filteredByGluten);
+                                List<Dessert> filteredByGlutenFree = _desserts.Where(d => d.IsGlutenFree).ToList();
+                                ShowOptions(filteredByGlutenFree);
                                 
                                 break;
                             case 2:
-                                List<Dessert> filteredByGlutenFree = desserts.Where(d => d.IsGlutenFree).ToList();
-                                ShowOptions(filteredByGlutenFree);
+                                List<Dessert> filteredByGluten = _desserts.Where(d => d.IsGlutenFree == false).ToList();
+                                ShowOptions(filteredByGluten);
                                 break;
                         }
                         
                         break;
                     case 2:
-                        Console.Clear();
-                        Console.WriteLine("Do you want it baked?\n1. YES\n2. NO");
-                        
-                        isValidInput = int.TryParse(Console.ReadLine(), out choice);
-                        if (!isValidInput || choice < 1 || choice > 2)
+                        int bakedChoice;
+                        do
                         {
-                            Console.WriteLine("Invalid input. Please select a valid option.:");
-                            Console.ReadKey();
-                        }
+                            Console.Clear();
+                            Console.WriteLine("Do you want it baked?\n1. YES\n2. NO");
+                            
+                            isValidInput = int.TryParse(Console.ReadLine(), out bakedChoice);
+                            if (!isValidInput || bakedChoice < 1 || bakedChoice > 2)
+                            {
+                                Console.WriteLine("Invalid input. Please select a valid option.:");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || bakedChoice < 1 || bakedChoice > 2);
                         
-                        //switch com yes ou no
-                        switch (choice)
+                        switch (bakedChoice)
                         {
                             case 1:
-                                //baked
-                                List<Dessert> filterByBaked = desserts.Where(d => d.IsBaked).ToList();
+                                List<Dessert> filterByBaked = _desserts.Where(d => d.IsBaked).ToList();
                                 ShowOptions(filterByBaked);
                                 
                                 break;
                             case 2:
-                                //not baked
-                                List<Dessert> filterByNotBaked = desserts.Where(d => d.IsBaked == false).ToList();
+                                List<Dessert> filterByNotBaked = _desserts.Where(d => d.IsBaked == false).ToList();
                                 ShowOptions(filterByNotBaked);
                                 break;
                         }
                         
                         break;
                     case 3:
-                        ShowOptions(desserts);
+                        ShowOptions(_desserts);
                         break;
                 }
                 break;
             case 3:
-                List<Drink> drinks = Drink.GenerateDrinks();
-                
-                // dar opcao de mostrar tudo ou filtrar por proteina ou tipo de cozinha
-                Console.WriteLine("\n\n Choose the option that satisfies you the most:");
-                Console.WriteLine("1. Filter by ALCOHOL\n2. Filter by TEMPERATURE\n3. Show ALL");
-                
-                isValidInput = int.TryParse(Console.ReadLine(), out choice);
-                if (!isValidInput || choice < 1 || choice > 3)
+                int filterChoiceDrink;
+                do
                 {
-                    Console.WriteLine("Invalid input. Please select a valid option.:");
-                    Console.ReadKey();
-                }
+                    Console.WriteLine("\n\n Choose the option that satisfies you the most:");
+                    Console.WriteLine("1. Filter by ALCOHOL\n2. Filter by TEMPERATURE\n3. Show ALL");
+                    
+                    isValidInput = int.TryParse(Console.ReadLine(), out filterChoiceDrink);
+                    if (!isValidInput || filterChoiceDrink < 1 || filterChoiceDrink > 3)
+                    {
+                        Console.WriteLine("Invalid input. Please select a valid option.:");
+                        Console.ReadKey();
+                    }
+                } while (!isValidInput || filterChoiceDrink < 1 || filterChoiceDrink > 3);
                 
-                switch (choice)
+                switch (filterChoiceDrink)
                 {
                     case 1:
-                        Console.Clear();
-                        Console.WriteLine("Do you want it WITH ALCOHOL?\n1. YES\n2. NO");
-                        
-                        isValidInput = int.TryParse(Console.ReadLine(), out choice);
-                        if (!isValidInput || choice < 1 || choice > 2)
+                        int alcoholChoice;
+                        do
                         {
-                            Console.WriteLine("Invalid input. Please select a valid option.:");
-                            Console.ReadKey();
-                        }
+                            Console.Clear();
+                            Console.WriteLine("Do you want it WITH ALCOHOL?\n1. YES\n2. NO");
+                            
+                            isValidInput = int.TryParse(Console.ReadLine(), out alcoholChoice);
+                            if (!isValidInput || alcoholChoice < 1 || alcoholChoice > 2)
+                            {
+                                Console.WriteLine("Invalid input. Please select a valid option.:");
+                                Console.ReadKey();
+                            }
+                        } while (!isValidInput || alcoholChoice < 1 || alcoholChoice > 2);
                         
-                        //switch com yes ou no
-                        switch (choice)
+                        switch (alcoholChoice)
                         {
                             case 1:
-                                //with alcohol
-                                List<Drink> filteredByWithAlcohol = drinks.Where(d => d.IsAlcoholic).ToList();
+                                List<Drink> filteredByWithAlcohol = _drinks.Where(d => d.IsAlcoholic).ToList();
                                 ShowOptions(filteredByWithAlcohol);
                                 break;
                             case 2:
-                                List<Drink> filteredByNoAlcohol = drinks.Where(d => d.IsAlcoholic == false).ToList();
+                                List<Drink> filteredByNoAlcohol = _drinks.Where(d => d.IsAlcoholic == false).ToList();
                                 ShowOptions(filteredByNoAlcohol);
                                 break;
                         }
@@ -370,12 +555,12 @@ public static class Menu
                     case 2:
                         Console.Clear();
                         TEMPERATURE temperature = ShowTemperatureTypes();
-                        List<Drink> filteredByTemperature = drinks.Where(d => d.Temperature == temperature).ToList();
+                        List<Drink> filteredByTemperature = _drinks.Where(d => d.Temperature == temperature).ToList();
                         ShowOptions(filteredByTemperature);
                         
                         break;
                     case 3:
-                        ShowOptions(drinks);
+                        ShowOptions(_drinks);
                         break;
                 }
                 
@@ -405,7 +590,7 @@ public static class Menu
         }
         else
         {
-            ShowCategories();
+            ShowMainMenu();
         }
     }
     private static void ShowRecipe<T>(T recipe) where T : IOptionItem
@@ -415,13 +600,13 @@ public static class Menu
         int chosenOption = Option.ChooseOption("Type the wanted option: ");
         if (chosenOption == 1)
         {
-            ShowCategories();
+            ShowMainMenu();
         }
     }
     
     private static string ReadLineNonNullable()
     {
-        while (true) //
+        while (true)
         {
             string? input = Console.ReadLine();
         
@@ -504,7 +689,7 @@ public static class Menu
     {
         int choice;
         bool isValidInput;
-        TEMPERATURE selectedTemperature = TEMPERATURE.COLD; // Valor padrão
+        TEMPERATURE selectedTemperature = TEMPERATURE.COLD;
 
         do
         {
@@ -534,4 +719,3 @@ public static class Menu
     }
 
 }
-
