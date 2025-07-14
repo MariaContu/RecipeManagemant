@@ -1,6 +1,4 @@
-﻿using System.Xml;
-
-namespace RecipesManagement;
+﻿namespace RecipesManagement;
 
 using System;
 using System.Collections.Generic;
@@ -31,7 +29,6 @@ public static class Menu
             if (!isValidInput || choice < 1 || choice > 3)
             {
                 Console.WriteLine("Invalid input. Please select a valid option.:");
-                Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > 3);
 
@@ -52,7 +49,6 @@ public static class Menu
                     if (!isValidInput || registerChoice < 1 || registerChoice > 3)
                     {
                         Console.WriteLine("Invalid input. Please select a valid option.:");
-                        Console.ReadKey();
                     }
                 } while (!isValidInput || registerChoice < 1 || registerChoice > 3);
 
@@ -73,7 +69,6 @@ public static class Menu
                             if (!isValidInput || timeInMinutes <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please enter a positive number for minutes.");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || timeInMinutes <= 0);
                         md.TimeInMinutes = timeInMinutes;
@@ -86,7 +81,6 @@ public static class Menu
                             if (!isValidInput || portions <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please enter a positive number for portions.");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || portions <= 0);
                         md.Portions = portions;
@@ -99,7 +93,6 @@ public static class Menu
                             if (vegetarianInput != "yes" && vegetarianInput != "no")
                             {
                                 Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
-                                Console.ReadKey();
                             }
                         } while (vegetarianInput != "yes" && vegetarianInput != "no");
                         md.IsVegetarian = vegetarianInput == "yes";
@@ -134,7 +127,6 @@ public static class Menu
                             if (!Enum.TryParse(typeof(PROTEIN), proteinInput, true, out var protein))
                             {
                                 Console.WriteLine("Invalid protein type. Please choose from the options.");
-                                Console.ReadKey();
                             }
                             else
                             {
@@ -151,7 +143,6 @@ public static class Menu
                             if (!Enum.TryParse(typeof(CUISINE), cuisineInput, true, out var cuisine))
                             {
                                 Console.WriteLine("Invalid cuisine type. Please choose from the options.");
-                                Console.ReadKey();
                             }
                             else
                             {
@@ -177,7 +168,6 @@ public static class Menu
                             if (!isValidInput || timeInMinutes <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please enter a positive number for minutes.");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || timeInMinutes <= 0);
                         des.TimeInMinutes = timeInMinutes;
@@ -189,7 +179,6 @@ public static class Menu
                             if (!isValidInput || portions <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please enter a positive number for portions.");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || portions <= 0);
                         des.Portions = portions;
@@ -201,7 +190,6 @@ public static class Menu
                             if (vegetarianInput != "yes" && vegetarianInput != "no")
                             {
                                 Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
-                                Console.ReadKey();
                             }
                         } while (vegetarianInput != "yes" && vegetarianInput != "no");
                         des.IsVegetarian = vegetarianInput == "yes";
@@ -236,7 +224,6 @@ public static class Menu
                             if (bakedInput != "yes" && bakedInput != "no")
                             {
                                 Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
-                                Console.ReadKey();
                             }
                         } while (bakedInput != "yes" && bakedInput != "no");
                         des.IsBaked = bakedInput == "yes";
@@ -249,7 +236,6 @@ public static class Menu
                             if (glutenInput != "yes" && glutenInput != "no")
                             {
                                 Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
-                                Console.ReadKey();
                             }
                         } while (glutenInput != "yes" && glutenInput != "no");
                         des.IsGlutenFree = glutenInput == "yes";
@@ -271,7 +257,6 @@ public static class Menu
                             if (!isValidInput || timeInMinutes <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please enter a positive number for minutes.");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || timeInMinutes <= 0);
                         drink.TimeInMinutes = timeInMinutes;
@@ -283,7 +268,6 @@ public static class Menu
                             if (!isValidInput || portions <= 0)
                             {
                                 Console.WriteLine("Invalid input. Please enter a positive number for portions.");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || portions <= 0);
                         drink.Portions = portions;
@@ -295,7 +279,6 @@ public static class Menu
                             if (vegetarianInput != "yes" && vegetarianInput != "no")
                             {
                                 Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
-                                Console.ReadKey();
                             }
                         } while (vegetarianInput != "yes" && vegetarianInput != "no");
                         drink.IsVegetarian = vegetarianInput == "yes";
@@ -330,7 +313,6 @@ public static class Menu
                             if (alcoholicInput != "yes" && alcoholicInput != "no")
                             {
                                 Console.WriteLine("Invalid input. Please type 'yes' or 'no'.");
-                                Console.ReadKey();
                             }
                         } while (alcoholicInput != "yes" && alcoholicInput != "no");
                         drink.IsAlcoholic = alcoholicInput == "yes";
@@ -343,7 +325,6 @@ public static class Menu
                             if (!Enum.TryParse(typeof(TEMPERATURE), temperatureInput, true, out var temperature))
                             {
                                 Console.WriteLine("Invalid temperature type. Please choose from the options.");
-                                Console.ReadKey();
                             }
                             else
                             {
@@ -385,7 +366,6 @@ public static class Menu
             if (!isValidInput || choice < 1 || choice > 4)
             {
                 Console.WriteLine("Invalid input. Please select a valid option.:");
-                Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > 4);
         
@@ -402,7 +382,6 @@ public static class Menu
                     if (!isValidInput || filterChoiceMainDish < 1 || filterChoiceMainDish > 3)
                     {
                         Console.WriteLine("Invalid input. Please select a valid option.:");
-                        Console.ReadKey();
                     }
                 } while (!isValidInput || filterChoiceMainDish < 1 || filterChoiceMainDish > 3);
                 
@@ -438,7 +417,6 @@ public static class Menu
                     if (!isValidInput || filterChoiceDessert < 1 || filterChoiceDessert > 3)
                     {
                         Console.WriteLine("Invalid input. Please select a valid option.:");
-                        Console.ReadKey();
                     }
                 } while (!isValidInput || filterChoiceDessert < 1 || filterChoiceDessert > 3);
                 
@@ -455,7 +433,6 @@ public static class Menu
                             if (!isValidInput || glutenChoice < 1 || glutenChoice > 2)
                             {
                                 Console.WriteLine("Invalid input. Please select a valid option.:");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || glutenChoice < 1 || glutenChoice > 2);
                         
@@ -484,7 +461,6 @@ public static class Menu
                             if (!isValidInput || bakedChoice < 1 || bakedChoice > 2)
                             {
                                 Console.WriteLine("Invalid input. Please select a valid option.:");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || bakedChoice < 1 || bakedChoice > 2);
                         
@@ -518,7 +494,6 @@ public static class Menu
                     if (!isValidInput || filterChoiceDrink < 1 || filterChoiceDrink > 3)
                     {
                         Console.WriteLine("Invalid input. Please select a valid option.:");
-                        Console.ReadKey();
                     }
                 } while (!isValidInput || filterChoiceDrink < 1 || filterChoiceDrink > 3);
                 
@@ -535,7 +510,6 @@ public static class Menu
                             if (!isValidInput || alcoholChoice < 1 || alcoholChoice > 2)
                             {
                                 Console.WriteLine("Invalid input. Please select a valid option.:");
-                                Console.ReadKey();
                             }
                         } while (!isValidInput || alcoholChoice < 1 || alcoholChoice > 2);
                         
@@ -645,7 +619,6 @@ public static class Menu
             else
             {
                 Console.WriteLine("Invalid input. Please select a valid option.");
-                Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > Enum.GetNames(typeof(PROTEIN)).Length);
 
@@ -678,7 +651,6 @@ public static class Menu
             else
             {
                 Console.WriteLine("Invalid input. Please select a valid option.");
-                Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > Enum.GetNames(typeof(CUISINE)).Length);
 
@@ -711,7 +683,6 @@ public static class Menu
             else
             {
                 Console.WriteLine("Invalid input. Please select a valid option.");
-                Console.ReadKey();
             }
         } while (!isValidInput || choice < 1 || choice > Enum.GetNames(typeof(TEMPERATURE)).Length);
 
