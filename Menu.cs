@@ -189,7 +189,7 @@ public class Menu
         }
     }
 
-    public static void ShowCategories()
+    private static void ShowCategories()
     {
         int choice;
         bool isValidInput;
@@ -234,15 +234,15 @@ public class Menu
                 {
                     case 1:
                         Console.Clear();
-                        PROTEIN DesiredProtein = ShowProteinTypes();
-                        List<MainDish> filteredByProtein = mainDishes.Where(x => x.ProteinType == DesiredProtein).ToList();
+                        PROTEIN desiredProtein = ShowProteinTypes();
+                        List<MainDish> filteredByProtein = mainDishes.Where(x => x.ProteinType == desiredProtein).ToList();
                         ShowOptions(filteredByProtein);
                         
                         break;
                     case 2:
                         Console.Clear();
-                        CUISINE DesiredCuisine = ShowCuisineTypes();
-                        List<MainDish> filteredByCuisine = mainDishes.Where(x => x.CuisineType == DesiredCuisine).ToList();
+                        CUISINE desiredCuisine = ShowCuisineTypes();
+                        List<MainDish> filteredByCuisine = mainDishes.Where(x => x.CuisineType == desiredCuisine).ToList();
                         ShowOptions(filteredByCuisine);
                         
                         break;
@@ -288,7 +288,7 @@ public class Menu
                                 
                                 break;
                             case 2:
-                                List<Dessert> filteredByGlutenFree = desserts.Where(d => d.IsGlutenFree == true).ToList();
+                                List<Dessert> filteredByGlutenFree = desserts.Where(d => d.IsGlutenFree).ToList();
                                 ShowOptions(filteredByGlutenFree);
                                 break;
                         }
@@ -310,7 +310,7 @@ public class Menu
                         {
                             case 1:
                                 //baked
-                                List<Dessert> filterByBaked = desserts.Where(d => d.IsBaked == true).ToList();
+                                List<Dessert> filterByBaked = desserts.Where(d => d.IsBaked).ToList();
                                 ShowOptions(filterByBaked);
                                 
                                 break;
@@ -359,7 +359,7 @@ public class Menu
                         {
                             case 1:
                                 //with alcohol
-                                List<Drink> filteredByWithAlcohol = drinks.Where(d => d.IsAlcoholic == true).ToList();
+                                List<Drink> filteredByWithAlcohol = drinks.Where(d => d.IsAlcoholic).ToList();
                                 ShowOptions(filteredByWithAlcohol);
                                 break;
                             case 2:
@@ -436,7 +436,7 @@ public class Menu
         }
     }
     
-    public static PROTEIN ShowProteinTypes()
+    private static PROTEIN ShowProteinTypes()
     {
         int choice;
         bool isValidInput;
@@ -469,7 +469,7 @@ public class Menu
         return selectedProtein;
     }
     
-    public static CUISINE ShowCuisineTypes()
+    private static CUISINE ShowCuisineTypes()
     {
         int choice;
         bool isValidInput;
@@ -502,7 +502,7 @@ public class Menu
         return selectedCuisine;
     }
     
-    public static TEMPERATURE ShowTemperatureTypes()
+    private static TEMPERATURE ShowTemperatureTypes()
     {
         int choice;
         bool isValidInput;
