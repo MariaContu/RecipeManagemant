@@ -33,7 +33,7 @@ public class Menu
             case 1:
                 //show list of categories
                 break;
-            case 2:
+            case 2: // Register a new recipe
                 Console.WriteLine("What would you like to register? ");
                 Console.WriteLine("1. Main Dish \n2. Dessert \n3. Drink");
                     
@@ -46,7 +46,7 @@ public class Menu
                 
                 switch (choice)
                 {
-                    case 1:
+                    case 1: // Main Dish: asks for user input for each property to create a new MainDish object
                         MainDish md = new MainDish();
                         Console.WriteLine("Give it a name: ");
                         md.Name = Console.ReadLine();
@@ -75,13 +75,32 @@ public class Menu
                             md.Instructions.Add(instruction);
                         }
 
-                        Console.WriteLine("Which protein does it contain? ");
-                        
-                        //ADICIONAR DECLARACAO DE VARIAVEIS ESPECIFICAS DE MAIN DISH
+                        Console.WriteLine("Which protein type is it? (Meat, Chicken, Fish, Chickpea, Soy, NA)");
+                        string proteinInput = Console.ReadLine().ToLower();
+                        if (Enum.TryParse(typeof(PROTEIN), proteinInput, true, out var protein))
+                        {
+                            md.ProteinType = (PROTEIN)protein;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid protein type. Setting to Not Available.");
+                            md.ProteinType = PROTEIN.NA;
+                        }
 
-                        
+                        Console.WriteLine("Which cuisine is it? (Italian, Indian, Mexican, Japanese, American, Thai, Brazilian, Other)");
+                        string cuisineInput = Console.ReadLine().ToUpper();
+                        if (Enum.TryParse(typeof(CUISINE), cuisineInput, true, out var cuisine))
+                        {
+                            md.CuisineType = (CUISINE)cuisine;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid cuisine type. Setting to Other.");
+                            md.CuisineType = CUISINE.OTHER;
+                        }
+
                         break;
-                    case 2:
+                    case 2: // Dessert: asks for user input for each property to create a new Dessert object
                         Dessert des = new Dessert();
                         Console.WriteLine("Give it a name: ");
                         des.Name = Console.ReadLine();
@@ -118,7 +137,7 @@ public class Menu
 
                         break;
                         
-                    case 3:
+                    case 3: // Drink: asks for user input for each property to create a new Drink object
                         Drink drink = new Drink();
                         Console.WriteLine("Give it a name: ");
                         drink.Name = Console.ReadLine();
@@ -135,7 +154,7 @@ public class Menu
                         string ingredient2 = "";
                         while (ingredient2 != "0")
                         {
-                            ingredient1 = Console.ReadLine();
+                            ingredient2 = Console.ReadLine();
                             drink.Ingredients.Add(ingredient2);
                         }
                         
@@ -150,10 +169,14 @@ public class Menu
                         Console.WriteLine("Is it alcoholic? (yes/no)");
                         drink.IsAlcoholic = Console.ReadLine() == "yes";
                         
-                        //ADICIONAR DECLARACAO DE TEMPERATURE DE DRINK
+                        Console.WriteLine("What is the temperature? (hot/cold/ambient)");
+                        string temperatureInput = Console.ReadLine().ToLower();
+                        if (Enum.TryParse(typeof(TEMPERATURE), temperatureInput, true, out var temperature))
+                        {
+                            drink.Temperature = (TEMPERATURE)temperature;
+                        }
+                        
                         break; 
-                        
-                        
                 }
                 
                 
