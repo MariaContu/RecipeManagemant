@@ -2,9 +2,10 @@
 
 public enum PROTEIN
 {
-    MEAT,       // Carne
-    CHICKEN,    // Frango
-    FISH,       // Peixe
-    CHICKPEA,   // Grão-de-bico
-    SOY         // Soja
+    MEAT,      
+    CHICKEN,   
+    FISH,       
+    CHICKPEA,   
+    SOY,         
+    NA      
 }
