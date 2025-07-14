@@ -21,7 +21,7 @@ public static class Menu
             Console.Clear();
             Console.WriteLine("\t╔══════════════════╗");
             Console.WriteLine("\t║   RICA PANCITA   ║");
-            Console.WriteLine("\t╚════════════════╝");
+            Console.WriteLine("\t╚══════════════════╝");
             Console.WriteLine("\tBrazilian Restaurant");
             Console.WriteLine("1. Categories ");
             Console.WriteLine("2. Register your own recipe ");
