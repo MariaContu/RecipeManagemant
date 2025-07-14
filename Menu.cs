@@ -185,7 +185,7 @@ public class Menu
         }
     }
 
-    public static void ShowCategories()
+    private static void ShowCategories()
     {
         int choice;
         bool isValidInput;
@@ -225,6 +225,7 @@ public class Menu
                 ShowOptions(drinks);
                 break;
             case 4:
+                Console.Clear();
                 Environment.Exit(0);
                 break;
         }
@@ -235,12 +236,31 @@ public class Menu
         string Name { get; }
         void DisplayDetails();
     }
-    public static void ShowOptions<T>(List<T> options) where T : IOptionItem
+    private static void ShowOptions<T>(List<T> options) where T : IOptionItem
     {
         int i = 1;
         options.ForEach(o => Option.AddOption(i++, o.Name));
+        Option.AddOption(i, "Return");
 
-        int chosenOption = Option.ChooseOption("Digite o número da opção desejada: ");
-        options[chosenOption-1].DisplayDetails();
+        int chosenOption = Option.ChooseOption("Type the wanted option: ");
+        if (chosenOption <= options.Count)
+        {
+            ShowRecipe(options[chosenOption - 1]);
+        }
+        else
+        {
+            ShowCategories();
+        }
+    }
+    private static void ShowRecipe<T>(T recipe) where T : IOptionItem
+    {
+        recipe.DisplayDetails();
+        Option.AddOption(1, "Return");
+        int chosenOption = Option.ChooseOption("Type the wanted option: ");
+        if (chosenOption == 1)
+        {
+            ShowCategories();
+        }
     }
 }
+
