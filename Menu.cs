@@ -19,8 +19,8 @@ public class Menu
             Console.WriteLine("\t╚══════════════════╝");
             Console.WriteLine("\tBrazilian Restaurant");
             Console.WriteLine("1. Categories ");
-            Console.WriteLine("2. Register ");
-            Console.WriteLine("3. Out");
+            Console.WriteLine("2. Register your own recipe ");
+            Console.WriteLine("3. Leave");
         
             isValidInput = int.TryParse(Console.ReadLine(), out choice);
             if (!isValidInput || choice < 1 || choice > 3)
@@ -48,7 +48,7 @@ public class Menu
                 }
                 switch (choice)
                 {
-                    case 1: // Main Dish: asks for user input for each property to create a new MainDish object
+                    case 1: 
                         MainDish md = new MainDish();
                         Console.WriteLine("Give it a name: ");
                         md.Name = ReadLineNonNullable();
@@ -101,6 +101,7 @@ public class Menu
                             md.CuisineType = CUISINE.OTHER;
                         }
 
+                        ShowMainMenu();
                         break;
                     case 2: // Dessert: asks for user input for each property to create a new Dessert object
                         Dessert des = new Dessert();
@@ -137,8 +138,8 @@ public class Menu
                         Console.WriteLine("\nIs it gluten free? (yes/no)");
                         des.IsGlutenFree = ReadLineNonNullable() == "yes";
 
+                        ShowMainMenu();
                         break;
-                        
                     case 3: // Drink: asks for user input for each property to create a new Drink object
                         Drink drink = new Drink();
                         Console.WriteLine("Give it a name: ");
@@ -177,7 +178,7 @@ public class Menu
                         {
                             drink.Temperature = (TEMPERATURE)temperature;
                         }
-                        
+                        ShowMainMenu();
                         break; 
                 }
                 break;
