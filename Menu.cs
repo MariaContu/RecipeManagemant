@@ -1,10 +1,8 @@
-﻿using System.Xml;
+﻿namespace RecipesManagement;
 
-namespace RecipesManagement;
+using System;
 
-using System.Xml;
-
-public class Menu
+public static class Menu
 {
     public static void ShowMainMenu()
     {
