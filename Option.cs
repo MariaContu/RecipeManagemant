@@ -22,7 +22,7 @@ public class Option
 
         if (string.IsNullOrWhiteSpace(input) || !int.TryParse(input, out int option))
         {
-            Console.WriteLine("Digite um número correspondente do menu numérico.");
+            Console.WriteLine("Invalid input. Please select a valid option..");
             return ChooseOption(msg);
         }
 
@@ -33,7 +33,7 @@ public class Option
         }
         else
         {
-            Console.WriteLine("Digite um número correspondente do menu numérico.");
+            Console.WriteLine("Invalid input. Please select a valid option.");
             return ChooseOption(msg);
         }
     }
