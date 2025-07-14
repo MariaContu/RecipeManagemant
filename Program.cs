@@ -3,7 +3,7 @@ using RecipesManagement;
 
 class Program
 {
-    static void Main()
+    private static void Main()
     {
         Menu.ShowMainMenu();
     }
